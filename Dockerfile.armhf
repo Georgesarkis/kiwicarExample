@@ -27,8 +27,10 @@ RUN cat /etc/apk/repositories && \
     echo http://dl-4.alpinelinux.org/alpine/v3.7/main > /etc/apk/repositories && \
     echo http://dl-4.alpinelinux.org/alpine/v3.7/community >> /etc/apk/repositories
 RUN apk update && \
+    apk --no-cache add \
+    libstdc++ libgcc && \
     mkdir /opt
 WORKDIR /opt
 COPY --from=builder /tmp/example .
 RUN [ "cross-build-end" ]
-CMD ["/opt/example --cid=112"]
+CMD ["/opt/example --cid=112 --verbose"]
