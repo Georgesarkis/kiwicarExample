@@ -50,4 +50,9 @@ This repository contains only example files that are used **exclusively** for th
 
 6. Change the swapsize value back to default (same as Step 3.)
 
-7. The OpenCV library is now installed on your rpi3. The header files are located in `/usr/local/include/opencv4/opencv2/`.
+7. Make symbolic link of the the header file folder:
+```Shell
+    $ sudo ln -s /usr/local/include/opencv4/opencv2 /usr/local/include/opencv2
+```
+
+8. The OpenCV library is now installed on your rpi3. 
