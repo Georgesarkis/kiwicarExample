@@ -95,25 +95,25 @@ int32_t main(int32_t argc, char **argv) {
             // An example of single time message-sending function
             const int16_t delay{1000}; // milliseconds
 
-            opendlv::proxy::GroundSpeedRequest speedReq;
-            speedReq.groundSpeed(0.4);
-            od4.send(speedReq); // This was called only once, hereinafter
+            opendlv::proxy::PedalPositionRequest pedalReq;
+            pedalReq.position(0.4);
+            od4.send(pedalReq); // This was called only once, hereinafter
             if (VERBOSE) std::cout << "Now move forward ...";
             std::this_thread::sleep_for(std::chrono::milliseconds(2 * delay));
 
-            speedReq.groundSpeed(0.0);
-            od4.send(speedReq);
+            pedalReq.position(0.0);
+            od4.send(pedalReq);
             if (VERBOSE) std::cout << " and stop." << std::endl;
             std::this_thread::sleep_for(std::chrono::milliseconds(delay));
 
             
-            speedReq.groundSpeed(-0.3);
-            od4.send(speedReq);
+            pedalReq.position(-0.3);
+            od4.send(pedalReq);
             if (VERBOSE) std::cout << "Now go back ...";
             std::this_thread::sleep_for(std::chrono::milliseconds(2 * delay));
 
-            speedReq.groundSpeed(0.0);
-            od4.send(speedReq);
+            pedalReq.position(0.0);
+            od4.send(pedalReq);
             if (VERBOSE) std::cout << " and stop." << std::endl;
             std::this_thread::sleep_for(std::chrono::milliseconds(delay));
         }
