@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019  Christian Berger & Yue Kang
+ * Copyright (C) 2019  Christian Berger
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -57,8 +57,8 @@ int32_t main(int32_t argc, char **argv) {
 
             // Endless loop; end the program by pressing Ctrl-C.
             while (od4.isRunning()) {
-
                 cv::Mat img;
+
                 // Wait for a notification of a new frame.
                 sharedMemory->wait();
 
@@ -70,33 +70,18 @@ int32_t main(int32_t argc, char **argv) {
                     // the camera to provide the next frame. Thus, any
                     // computationally heavy algorithms should be placed outside
                     // lock/unlock.
-                    if (NAME == "img.argb")
-                    {
-                        cv::Mat wrapped(HEIGHT, WIDTH, CV_8UC4, sharedMemory->data());
-                        img = wrapped.clone();
-                        // Example: Draw a red rectangle and display image afterwards.
-                        cv::rectangle(img, cv::Point(50, 50), cv::Point(100, 100), cv::Scalar(0,0,255));
-                    }
-                    else if (NAME == "img.i420")
-                    {
-                        // Example: Convert the i420 image to RGB, draw a red rectangle and then
-                        // overwrite the shared memory
-                        cv::Mat wrapped(HEIGHT + HEIGHT / 2, WIDTH, CV_8UC1, sharedMemory->data());
-                        cv::cvtColor(wrapped, img, cv::COLOR_YUV2BGR_I420);
-                        cv::rectangle(img, cv::Point(50, 50), cv::Point(100, 100), cv::Scalar(0,0,255));
-                        cv::cvtColor(img, wrapped, cv::COLOR_BGR2YUV_I420);
-                    }
-                    
+                    cv::Mat wrapped(HEIGHT, WIDTH, CV_8UC4, sharedMemory->data());
+                    img = wrapped.clone();
                 }
                 sharedMemory->unlock();
-                sharedMemory->notifyAll();
 
-                // TODO: Implement your image processing algorithm here
+                // TODO: Do something with the frame.
 
-                // TODO: Implement your control code (based on image processing result) here
+                // Example: Draw a red rectangle and display image.
+                cv::rectangle(img, cv::Point(50, 50), cv::Point(100, 100), cv::Scalar(0,0,255));
 
-                // Display image
-                if (VERBOSE && (NAME == "img.argb")) {
+                // Display image.
+                if (VERBOSE) {
                     cv::imshow(sharedMemory->name().c_str(), img);
                     cv::waitKey(1);
                 }
